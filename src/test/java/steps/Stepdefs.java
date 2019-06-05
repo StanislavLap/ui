@@ -7,19 +7,17 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import pages.*;
 
-import java.io.File;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import static base.Common.selectDriver;
 import static base.JsonSimpleParser.getJsonAsMap;
 
 public class Stepdefs {
     private WebDriver driver;
-    private Map<String, String> map;
+    private HashMap<String, String> map;
 
     private YMCategoryPage ymCategoryPage;
     private YMSubCategoryPage ymSubCategoryPage;
@@ -29,18 +27,16 @@ public class Stepdefs {
     private YMSubCategoryManufactureSortingPricePage ymSubCategoryManufactureSortingPricePage;
 
     @Given("^Open chrome$")
-    public void open_chrome() {
-        System.setProperty("webdriver.chrome.driver", "src/chromedriver246.exe");
-        ChromeOptions options = new ChromeOptions();
-        options.addExtensions(new File("src/chropath/ChroPath503.crx"));
-        driver = new ChromeDriver(options);
-/*        System.setProperty("webdriver.gecko.driver","src/geckodriver0240.exe");
-        driver = new FirefoxDriver();*/
+    public void open_browser() {
+        driver = selectDriver(System.getProperty("driver"));
         driver.manage().window().maximize();
         map = getJsonAsMap();
+
         // устанавливаем таймаут ожидания загрузки
-        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
+        driver.manage().deleteAllCookies();
+
         driver.get(map.get("url"));
     }
 
@@ -62,7 +58,6 @@ public class Stepdefs {
 
     @Then("^Show correct subcategory title$")
     public void showCorrectSubcategoryTitle() {
-        //Assert.assertEquals(map.get("selectSubCategory.title"), ymSubCategoryPage.getTitle());
         Assert.assertTrue(ymSubCategoryPage.getTitle().contains(map.get("selectSubCategory.title")));
     }
 
@@ -92,16 +87,6 @@ public class Stepdefs {
         driver.quit();
     }
 
-    @After
-    public void closeDriver(Scenario scenario) {
-        if (scenario.isFailed()) {
-            //byte[] screenshot = driver.getScreenshotAs(OutputType.BYTES);
-            //scenario.embed(screenshot, "image/png");
-            driver.close();
-            driver.quit();
-        }
-    }
-
     @When("^I change view to list$")
     public void iChangeViewToList() {
         ymSubCategoryManufactureViewPage = ymSubCategoryManufacturePage.changeView();
@@ -120,5 +105,13 @@ public class Stepdefs {
     @Then("^Price range changed$")
     public void priceRangeChanged() {
         Assert.assertTrue(ymSubCategoryManufactureSortingPricePage.priceAccepted());
+    }
+
+    @After
+    public void closeDriver(Scenario scenario) {
+        if (scenario.isFailed()) {
+            driver.close();
+            driver.quit();
+        }
     }
 }

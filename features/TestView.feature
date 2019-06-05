@@ -1,6 +1,6 @@
-Feature: Test quantity
+Feature: Test view
 
-  Scenario: Tests for quantity
+  Scenario: Tests change page view
     Given Open chrome
     When I go YM and click on button with category
     When I click on subcategory

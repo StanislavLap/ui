@@ -1,6 +1,6 @@
 Feature: Test subcategory
 
-  Scenario: Test бытовая техника
+  Scenario: Test choose subcategory
     Given Open chrome
     When I go YM and click on button with category
     Then Show correct category title
