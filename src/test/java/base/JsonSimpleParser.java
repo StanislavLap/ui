@@ -15,9 +15,9 @@ import java.util.logging.Logger;
 public class JsonSimpleParser {
     private static final String FILENAME = "src/test/resources/data.json";
 
-    public static HashMap getJsonAsMap() {
+    public static HashMap<String, String> getJsonAsMap() {
         JSONParser parser = new JSONParser();
-        HashMap result = null;
+        HashMap<String, String> result = null;
         try {
             JSONObject object = (JSONObject) parser.parse(new FileReader(FILENAME));
             result = new ObjectMapper().readValue(object.toString(), HashMap.class);

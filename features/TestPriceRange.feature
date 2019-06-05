@@ -1,6 +1,6 @@
-Feature: Test quantity
+Feature: Test price range
 
-  Scenario: Tests for quantity
+  Scenario: Tests for price range
     Given Open chrome
     When I go YM and click on button with category
     When I click on subcategory

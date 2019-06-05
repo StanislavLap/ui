@@ -4,9 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static base.Common.outputFindingElement;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 public class YMCategoryPage {
+
     private WebDriver driver;
     private WebDriverWait wait;
 
@@ -30,8 +32,10 @@ public class YMCategoryPage {
      * @return подкатегория с требуемым наименованием
      */
     public YMSubCategoryPage selectSubCategory(String linkText) {
-        wait = new WebDriverWait(driver, 20);
+        wait = new WebDriverWait(driver, 40);
         wait.until(visibilityOfElementLocated(By.xpath("//a[contains(.,'" + linkText + "')]")));
+
+        outputFindingElement("//a[contains(.,'" + linkText + "')]");
         driver.findElement(By.xpath("//a[contains(.,'" + linkText + "')]")).click();
         return new YMSubCategoryPage(driver);
     }

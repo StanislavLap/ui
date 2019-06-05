@@ -16,7 +16,6 @@ public class YMSubCategoryManufactureQuantityPage {
     }
 
     public Integer getQuantityGoods() {
-
         return driver.findElements(By.xpath(QUANTITY_COUNT.toString())).size();
 
     }
