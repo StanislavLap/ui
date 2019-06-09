@@ -9,6 +9,9 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import pages.*;
 
+import static java.lang.Thread.sleep;
+import static org.assertj.core.api.Assertions.*;
+
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -78,7 +81,7 @@ public class Stepdefs {
 
     @Then("^Number items on page equals (\\d+)$")
     public void numberItemsOnPageEquals(int quantity) {
-        Assert.assertEquals(String.valueOf(quantity), ymSubCategoryManufactureQuantityPage.getQuantityGoods());
+        assertThat(ymSubCategoryManufactureQuantityPage.getQuantityGoods()).isEqualTo(quantity);
     }
 
     @Then("^Chrome should be closed$")
