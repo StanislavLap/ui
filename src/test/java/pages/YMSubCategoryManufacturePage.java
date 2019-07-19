@@ -2,14 +2,10 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static base.Common.*;
-import static java.lang.Thread.sleep;
-import static locators.YMSubCategoryManufacturePageLocators.QUANTITY_ITEMS;
 import static locators.YMSubCategoryManufacturePageLocators.TITLE;
 import static locators.YMSubCategoryManufactureSortingPricePageLocators.FROM;
 import static locators.YMSubCategoryManufactureSortingPricePageLocators.TO;
@@ -31,26 +27,29 @@ public class YMSubCategoryManufacturePage {
         return driver.findElement(By.tagName("h1")).getText();
     }
 
-    public YMSubCategoryManufactureQuantityPage selectQuantity(int quantity) {
+    public YMSubCategoryManufactureQuantityPage selectQuantity(int quantity) throws InterruptedException {
 
-        WebElement element = driver.findElement(By.xpath(QUANTITY_ITEMS.toString()));
+        waitForJSandJQueryToLoad(driver);
 
-        scrollPageWithOffset(driver, element, 0, 1000);
-
-        Actions actions = new Actions(driver);
-        actions.moveToElement(element);
-        actions.perform();
-
-        element.click();
-
-        WebElement webElement = driver.findElement(By.xpath("//span[contains(text(),'Показывать по " + quantity + "')]"));
-
-        elementDisplayed(driver, By.xpath("//div[contains(@class(), 'popup_visibility_visible')]"));
-        elementDisplayed(driver, webElement);
-        elementClickable(driver, webElement);
+        System.out.println("Скролим до //span[contains(text(),'Показать еще')]");
+        scrollPageToWebElementByXpath(driver, driver.findElement(By.xpath("//span[contains(text(),'Показать еще')]")));
 
 
-        driver.findElement(By.xpath("//span[contains(text(),'Показывать по " + quantity + "')]")).click();
+        //if (elementClickable(driver, driver.findElement(By.xpath(QUANTITY_ITEMS.toString())))) { //TODO не кликает по кнопке выбора количества элементов на странице
+        if (elementClickable(driver, driver.findElement(By.xpath("//span[contains(text(),'Показывать по')]/ancestor::button")))) { //TODO не кликает по кнопке выбора количества элементов на странице
+            WebDriverWait wait = new WebDriverWait(driver, 20);
+            wait.until(visibilityOfElementLocated(By.xpath("//button[@class='button button_theme_normal button_arrow_down button_size_s select__button i-bem button_js_inited']")));
+            System.out.println("Кликаем по выбору количества элементов");
+            Thread.sleep(5000);
+            scrollPageToWebElementByXpath(driver, driver.findElement(By.xpath("//span[contains(text(),'Показывать по')]/ancestor::button")));
+            driver.findElement(By.xpath("//span[contains(text(),'Показывать по')]/ancestor::button")).click();
+        }
+
+        if (elementClickable(driver, driver.findElement(By.xpath("//div/span[contains(text(),'Показывать по " + quantity + "')]")))) {
+            assertThatElementDisplayed(driver, driver.findElement(By.xpath("//div/span[contains(text(),'Показывать по " + quantity + "')]")));
+            Actions actions2 = new Actions(driver);
+            actions2.moveToElement(driver.findElement(By.xpath("//div/span[contains(text(),'Показывать по " + quantity + "')]"))).click().build().perform();
+        }
 
         return new YMSubCategoryManufactureQuantityPage(driver);
     }
