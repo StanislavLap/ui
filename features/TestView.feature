@@ -1,5 +1,6 @@
 Feature: Test view
 
+  @e2e
   Scenario: Tests change page view
     Given Open chrome
     When I go YM and click on button with category

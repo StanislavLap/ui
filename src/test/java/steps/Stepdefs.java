@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import static base.Common.selectDriver;
 import static base.JsonSimpleParser.getJsonAsMap;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class Stepdefs {
     private WebDriver driver;
@@ -72,13 +73,13 @@ public class Stepdefs {
     }
 
     @When("^I select quantity (\\d+)$")
-    public void iSelectQuantity(int quantity) {
+    public void iSelectQuantity(int quantity) throws InterruptedException {
         ymSubCategoryManufactureQuantityPage = ymSubCategoryManufacturePage.selectQuantity(quantity);
     }
 
     @Then("^Number items on page equals (\\d+)$")
-    public void numberItemsOnPageEquals(int quantity) {
-        Assert.assertEquals(String.valueOf(quantity), ymSubCategoryManufactureQuantityPage.getQuantityGoods());
+    public void numberItemsOnPageEquals(int quantity) throws InterruptedException {
+        assertThat(ymSubCategoryManufactureQuantityPage.getQuantityGoods(quantity)).isEqualTo(quantity);
     }
 
     @Then("^Chrome should be closed$")
@@ -94,7 +95,7 @@ public class Stepdefs {
 
     @Then("^View changed$")
     public void viewChanged() {
-        Assert.assertTrue(ymSubCategoryManufactureViewPage.isView("List"));
+        Assert.assertTrue(ymSubCategoryManufactureViewPage.isView("list"));
     }
 
     @When("^I change price range from (\\d+) to (\\d+)$")

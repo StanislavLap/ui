@@ -1,5 +1,6 @@
 Feature: Test subcategory
 
+  @e2e
   Scenario: Test choose subcategory
     Given Open chrome
     When I go YM and click on button with category

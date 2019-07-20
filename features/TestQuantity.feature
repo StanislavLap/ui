@@ -1,5 +1,6 @@
 Feature: Test quantity
 
+  @e2e
   Scenario: Tests for quantity
     Given Open chrome
     When I go YM and click on button with category
