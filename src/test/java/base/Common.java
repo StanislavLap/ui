@@ -38,7 +38,7 @@ public class Common {
         if (seleniumWebDriver == null) seleniumWebDriver = "CHROME";
         switch (seleniumWebDriver) {
             case "CHROME":
-                System.setProperty("webdriver.chrome.driver", "src/chromedriver74-0-3729-6.exe");
+                System.setProperty("webdriver.chrome.driver", "src/chromedriver75-0-3770-140.exe");
                 ChromeOptions options = new ChromeOptions();    //TODO вынести отдельно
                 options.addExtensions(new File("src/chropath/ChroPath503.crx"));
                 options.addArguments("start-maximized");
@@ -54,7 +54,7 @@ public class Common {
                 driver = new InternetExplorerDriver();
                 break;
             default:
-                System.setProperty("webdriver.chrome.driver", "src/chromedriver74-0-3729-6.exe");
+                System.setProperty("webdriver.chrome.driver", "src/chromedriver75-0-3770-140.exe");
                 driver = new ChromeDriver();
                 break;
         }

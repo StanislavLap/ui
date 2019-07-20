@@ -1,5 +1,6 @@
 Feature: Test manufacturer
 
+  @e2e
   Scenario: Test choose manufacturer Bosh
     Given Open chrome
     When I go YM and click on button with category

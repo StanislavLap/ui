@@ -1,5 +1,6 @@
 Feature: Test price range
 
+  @e2e
   Scenario: Tests for price range
     Given Open chrome
     When I go YM and click on button with category
